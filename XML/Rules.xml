@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- Этот XML транслируется в ExtJS-код, содержащийся в файле rules.js в каталоге JS
+     Обработка XML-кода производится всякий раз при открытии/обновлении страницы, 
+     имеющей то же название, что и этот файл -->
+<App id="ZmlApp" var="ZmlApp" ns="Zml" target="\js\rules.js" xmlns="ZMLSchema">
+
+
+  <Compiler>
+    <CompileFolder path="\SenchaXml\ZML\CodeTemplates\">
+      <Script src="Param.js"/>
+      <Script src="ContextBinder.js"/>
+    </CompileFolder>
+  </Compiler>
+
+
+  <Sources>
+    <Source id="CategoriesComboData" name="Expenses/Exp/Categories" baseUrl="/" provider="rest" pageSize="40" autoload="true" descr="Хранилище данных для списка категорий затрат.">
+      <Field id="Id" type="int" key="true" />
+      <Field id="Name" type="string" />
+      <Field id="GroupsCount" type="int" />
+    </Source>
+    <Source id="GroupsComboData" name="Expenses/Exp/Groups" baseUrl="/" provider="rest" pageSize="40" autoload="true" descr="Хранилище данных для списка групп, входящих в категорию затрат.">
+      <Prm scope="combo" id="CatCombo" field="valueField" as="catid"/>
+      <Field id="Id" type="int" key="true" />
+      <Field id="Name" type="string" />
+      <Field id="CatId" type="int" />
+    </Source>
+    <Source id="GetExpRules" name="Expenses/api/ExpRules" baseUrl="/" provider="rest" pageSize="100" descr="Хранилище данных для правил авторазнесения затрат в определенную группу.">
+      <Prm scope="combo" id="GroupsCombo" field="valueField" as="grpid"/>
+      <Field id="Id" type="int" key="true" />
+      <Field id="Name" type="string" name="Имя" flex="1" />
+      <Field id="GrpId" type="int" />
+    </Source>
+    <Source id="GetIncludePatterns" name="Expenses/api/RuleMatches" baseUrl="/" provider="rest" pageSize="50" onwrite="OnAfterMatchesSaved" descr="Хранилище данных для паттернов соответствия, ассоциированных с определенным правилом.">
+      <Prm scope="grid" id="RulesGrid" field="Id" as="ruleid"/>
+      <Field id="Id" type="int" key="true" />
+      <Field id="Pattern" type="string" name="Паттерн" flex="1" editor="textfield" />
+      <Field id="RuleId" type="int" />
+    </Source>
+    <Source id="GetExcludePatterns" name="Expenses/api/RuleNotMatches" baseUrl="/" provider="rest" pageSize="50" onwrite="OnAfterMatchesSaved" descr="Хранилище данных для паттернов несоответствия, ассоциированных с определенным правилом.">
+      <Prm scope="grid" id="RulesGrid" field="Id" as="ruleid"/>
+      <Field id="Id" type="int" key="true" />
+      <Field id="Pattern" type="string" name="Паттерн" flex="1" editor="textfield" />
+      <Field id="RuleId" type="int" />
+    </Source>
+  </Sources>
+
+  
+  
+
+  <Actions>
+
+    <!-- Команда, выполняемая при создании нового правила разнесения затрат -->
+    <Action id="SaveNewRule" run="local">
+      <create.record id="GetExpRules">
+        <Prm default="0" as="Id" />
+        <Prm default="''" as="Name" />
+        <Prm scope="combo" id="GroupsCombo" field="valueField" as="GrpId"/>
+      </create.record>
+    </Action>
+
+    <!-- Команда, выполняемая при создании новой записи в таблице правил 
+         СООТВЕТСТВИЯ для попадания в группу затрат -->
+    <Action id="SaveNewRuleMatch" run="local">
+      <create.record id="GetIncludePatterns">
+        <Prm default="0" as="Id" />
+        <Prm scope="grid" id="RulesGrid" field="Id" as="RuleId"/>
+        <Prm default="''" as="Pattern" />
+      </create.record>
+    </Action>
+
+    <!-- Команда, выполняемая при создании новой записи в таблице правил 
+         НЕСООТВЕТСТВИЯ для попадания в группу затрат -->
+    <Action id="SaveNewRuleNotMatch" run="local">
+      <create.record id="GetExcludePatterns">
+        <Prm default="0" as="Id" />
+        <Prm scope="grid" id="RulesGrid" field="Id" as="RuleId"/>
+        <Prm default="''" as="Pattern" />
+      </create.record>
+    </Action>
+
+    <!-- Команда, выполняемая ПОСЛЕ записи новых данных -->
+    <Action id="OnAfterMatchesSaved" run="local">
+      <call.source id="GetExpRules"/>
+    </Action>
+
+  </Actions>
+
+  
+  <!-- Описание пользовательского интерфейса для страницы Rules 
+       (работа с правилами авторазнесения затрат по группам) -->
+  <View layout="hbox" target="mainContainer" padding="15" splitterSize="10">
+
+    <!-- Панель с формой выбора категорий/групп затрат и таблицей 
+         со списком имеющихся для них правил -->
+    <Panel maxWidth="600" minWidth="600" layout="vbox">
+      <Form id="FiltersForm" bodyPadding="10" title="ФИЛЬТРЫ" titleBackColor="cleargrey" titleColor="black" minHeight="130" maxHeight="130">
+        <Combo id="CatCombo" src="CategoriesComboData" value="Id" display="Name" name="Категории затрат" labelWidth="150">
+          <Template id="AggregatedCombo" itemSelector="combo-item" field_a="Name" field_c="GroupsCount"/>
+        </Combo>
+        <Combo id="GroupsCombo" src="GroupsComboData" value="Id" display="Name" name="Группы затрат" labelWidth="150">
+          <Template id="AggregatedCombo" itemSelector="combo-item" field_a="Name"/>
+        </Combo>
+      </Form>
+      <Grid id="RulesGrid" src="GetExpRules" create="SaveNewRule" sel="single" title="ПРАВИЛА РАЗНЕСЕНИЯ ЗАТРАТ" titleBackColor="darkgreen" flex="1" />
+    </Panel>
+
+    <!-- Панель с таблицами правил СООТВЕТСТВИЯ и НЕСООТВЕТСТВИЯ текста 
+         в описании затраты, для авторазнесения ее в выбранную группу 
+         по выбранному в таблице выше правилу -->
+    <Panel layout="vbox">
+      <Grid id="RuleMatchGrid" src="GetIncludePatterns" create="SaveNewRuleMatch" sel="single" title="ВКЛЮЧАТЬ" />
+      <Grid id="RuleNotMatchGrid" src="GetExcludePatterns" create="SaveNewRuleNotMatch" sel="single" title="ИСКЛЮЧАТЬ" />
+    </Panel>
+
+  </View>
+  
+</App>

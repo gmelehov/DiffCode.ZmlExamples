@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- Этот XML транслируется в ExtJS-код, содержащийся в файле main.js в каталоге JS
+     Обработка XML-кода производится всякий раз при открытии/обновлении страницы, 
+     имеющей то же название, что и этот файл -->
+<App id="ZmlApp" var="ZmlApp" ns="Zml" target="\js\main.js" xmlns="ZMLSchema">
+
+
+  <Compiler>
+    <CompileFolder path="\SenchaXml\ZML\CodeTemplates\">
+      <Script src="Param.js"/>
+      <Script src="ContextBinder.js"/>
+    </CompileFolder>
+  </Compiler>
+
+  <!-- Описание источников данных для веб-приложения, 
+       включая параметры для запроса на бэкенд и представление 
+       ответа в виде столбцов таблиц данных -->
+  <Sources>
+    <Source id="GetExpCategories" name="Expenses/Exp/AggrCategories" baseUrl="/" provider="rest" pageSize="20" autoload="true" descr="Хранилище данных для фильтра по категориям затрат.">
+      <Prm scope="combo" id="YearsCombo" field="valueField" as="year" />
+      <Prm scope="combo" id="MonthsCombo" field="valueField" as="month" />
+      <Prm scope="input" id="FilterComments" as="comments" />
+      <Field id="Id" type="int" key="true" />
+      <Field id="Cat" type="string" />
+      <Field id="ECount" type="int" />
+      <Field id="ESum" type="int" format="currency" />
+      <Field id="Year" type="auto" />
+      <Field id="Month" type="auto" />
+      <Field id="Comments" type="string" />
+    </Source>
+    <Source id="GetExpGroups" name="Expenses/Exp/AggrGroups" baseUrl="/" provider="rest" pageSize="20" autoload="true" descr="Хранилище данных для фильтра по группам, входящим в категорию затрат.">
+      <Prm scope="combo" id="YearsCombo" field="valueField" as="year" />
+      <Prm scope="combo" id="MonthsCombo" field="valueField" as="month" />
+      <Prm scope="input" id="FilterComments" as="comments" />
+      <Field id="Id" type="int" key="true" />
+      <Field id="Grp" type="string" />
+      <Field id="ECount" type="int" />
+      <Field id="ESum" type="int" format="currency" />
+      <Field id="Year" type="auto" />
+      <Field id="Month" type="auto" />
+      <Field id="Comments" type="string" />
+    </Source>
+    <Source id="GetEntriesYears" name="Expenses/Exp/AggrYears" baseUrl="/" provider="rest" pageSize="20" autoload="true" descr="Хранилище данных для актуального списка лет ведения журнала затрат.">
+      <Prm scope="combo" id="MonthsCombo" field="valueField" as="month" />
+      <Prm scope="input" id="FilterComments" as="comments" />
+      <Field id="Id" type="int" key="true" />
+      <Field id="Year" type="string" />
+      <Field id="ECount" type="int" />
+      <Field id="ESum" type="int" format="currency" />
+      <Field id="Month" type="auto" />
+      <Field id="Comments" type="string" />
+    </Source>
+    <Source id="GetEntriesMonths" name="Expenses/Exp/AggrMonths" baseUrl="/" provider="rest" pageSize="20" autoload="true" descr="Хранилище данных для списка месяцев.">
+      <Prm scope="combo" id="YearsCombo" field="valueField" as="year" />
+      <Prm scope="input" id="FilterComments" as="comments" />
+      <Field id="Id" type="int" key="true" />
+      <Field id="Month" type="string" />
+      <Field id="ECount" type="int" />
+      <Field id="ESum" type="int" format="currency" />
+      <Field id="Year" type="auto" />
+      <Field id="Comments" type="string" />
+    </Source>
+    <Source id="GetExpEntries" name="Expenses/api/ExpEntries" baseUrl="/" provider="rest" crud="true" pageSize="30" autoload="true" onwrite="OnAfterEntrySaved" descr="Хранилище данных для журнала затрат.">
+      <Prm scope="combo" id="YearsCombo" field="valueField" as="year" />
+      <Prm scope="combo" id="MonthsCombo" field="valueField" as="month" />
+      <Prm scope="input" id="FilterComments" as="comments" />
+      <Field id="Id" type="int" key="true"/>
+      <Field id="Amount" type="float" name="Сумма" width="120" format="0.00" editor="numberfield" />
+      <Field id="Quantity" type="int" default="1" />
+      <Field id="Date" type="date" name="Дата" width="160" format="d.m.Y" filter="month" editor="datefield" />
+      <Field id="Comment" type="string" name="Комментарий" flex="1" editor="textfield" />
+      <Field id="GrpName" type="string" name="Группа" width="260" filter="list" datasrc="AllGroups"/>
+      <Field id="GrpId" type="int" />
+    </Source>
+    <Source id="GetEntryAutoGroups" name="Expenses/Exp/EntryAutoGroups" baseUrl="/" provider="rest" pageSize="1" onload="OnAfterAutoGroups" descr="Хранилище данных для автоматически предложенной группы затрат.">
+      <Prm scope="input" id="EntryComment" as="comments" />
+      <Field id="Id" type="int" key="true" />
+      <Field id="Name" type="string" />
+      <Field id="CatId" type="int" />    
+    </Source>
+    <Source id="GetCommentAutoComplete" name="Expenses/Exp/CommentAutoComplete" baseUrl="/" provider="rest" pageSize="200" autoload="true">
+      <Field id="Id" type="string" key="true" />
+      <Field id="Name" type="string" />
+    </Source>
+    <Source id="AllGroups" name="Expenses/Exp/AllGroups" baseUrl="/" provider="rest" pageSize="1000" autoload="true" descr="Хранилище данных для комбобокса-редактора поля (Группа затрат)">
+      <Field id="Id" type="int" key="true" />
+      <Field id="Name" type="string" />
+      <Field id="GrpName" mapping="Name" type="string"/>
+    </Source>
+  </Sources>
+
+  <!-- Описание пользовательских команд для выполнения 
+       запросов/обработки нажатий на кнопки и т.п. -->
+  <Actions>
+    <Action id="CallEntryAutoGroups" run="local">
+      <call.source id="GetEntryAutoGroups"/>
+    </Action>
+    <Action id="OnAfterAutoGroups" run="local">
+      <set.prop targetType="TextField" targetId="EntryGroup" targetProp="value" sourceType="source" sourceId="GetEntryAutoGroups" sourceProp="Name" record="0"/>
+    </Action>
+    <Action id="SaveNewEntry" run="local">
+      <create.record id="GetExpEntries">
+        <Prm default="0" as="Id" />
+        <Prm scope="input" id="EntryAmount" as="Amount" />
+        <Prm scope="input" id="EntryQuantity" as="Quantity" />
+        <Prm scope="input" id="EntryDate" as="Date" />
+        <Prm scope="input" id="EntryComment" as="Comment" />
+        <Prm default="0" as="GrpId" />
+        <Prm default="''" as="GrpName" />
+      </create.record>    
+    </Action>
+    <Action id="OnAfterEntrySaved" run="local">
+      <clear.input id="EntryAmount"/>
+      <clear.input id="EntryComment"/>
+      <clear.input id="EntryQuantity"/>
+      <call.source id="GetExpCategories"/>
+      <call.source id="GetExpGroups"/>
+    </Action>
+    <Action id="CalcAutoGroups" name="Expenses/Exp/CalcAutoGroups" baseUrl="/" run="rest" method="GET">
+      <call.source id="GetExpEntries"/>
+    </Action>
+    <Action id="RecalcAutoGroup" name="Expenses/Exp/RecalcAutoGroup" baseUrl="/" run="rest" method="GET">
+      <Prm scope="grid" id="EntriesGrid" field="Id"/>
+      <call.source id="GetExpEntries"/>
+    </Action>
+    <Action id="SaveSerializedXML" name="Expenses/Exp/SaveToXml" baseUrl="/" run="rest" method="GET" />
+    <Action id="SaveSerializedEmptyXML" name="Expenses/Exp/SaveToEmptyXml" baseUrl="/" run="rest" method="GET" />
+  </Actions>
+  
+  
+  <!-- Описание пользовательского интерфейса для страницы Main -->
+  <View layout="vbox" target="mainContainer" padding="15" splitterSize="10">
+
+    <!-- Панель с фильтрами для настройки отображения списка затрат -->
+    <Panel maxWidth="460" minWidth="460" layout="vbox" splitterSize="10">
+      <Form id="FiltersForm" bodyPadding="10" title="Фильтры и агрегаторы" titleBackColor="lightgreen" bodyBackColor="palegrey" height="140" maxHeight="140">
+        <Combo id="YearsCombo" src="GetEntriesYears" value="Id" display="Year" name="Годы затрат" labelWidth="160" defaultValue="0">
+          <Template id="AggregatedCombo" itemSelector="combo-item" field_a="Year" field_b="ESum" field_c="ECount"/>
+        </Combo>
+        <Combo id="MonthsCombo" src="GetEntriesMonths" value="Id" display="Month" name="Месяцы затрат" labelWidth="160" defaultValue="0">
+          <Template id="AggregatedCombo" itemSelector="combo-item" field_a="Month" field_b="ESum" field_c="ECount"/>
+        </Combo>
+        <Input id="FilterComments" type="textfield" autoSync="true" name="Комментарий соответствует" labelWidth="160"/>
+      </Form>
+      <List id="CategoriesList" src="GetExpCategories" sel="multi" flex="1" title="Затраты по категориям" titleBackColor="lightgreen" bodyBackColor="palegrey">
+        <Template id="AggregatedList" itemSelector="data-item" field_a="Cat" field_b="ESum" field_c="ECount"/>
+      </List>
+      <List id="GroupsList" src="GetExpGroups" sel="multi" flex="1.65" title="Затраты по группам" titleBackColor="lightgreen" bodyBackColor="palegrey">
+        <Template id="AggregatedList" itemSelector="data-item" field_a="Grp" field_b="ESum" field_c="ECount"/>
+      </List>
+    </Panel>
+
+    <!-- Форма ввода данных для создания новой записи о затратах -->
+    <Form id="NewEntryForm" bodyPadding="10" title="НОВАЯ ЗАПИСЬ" titleBackColor="cleargrey" titleColor="black" bodyBackColor="palegrey" height="140" maxHeight="140" layout="column">
+      <Defaults margin="0 10 0 0" labelWidth="55" labelAlign="top"/>
+      <Input id="EntryDate" type="datefield" name="Дата" format="d.m.Y" writeFormat="d.m.Y" columnWidth="0.1" allowBlank="false"/>
+      <Input id="EntryQuantity" type="numberfield" name="Кол-во" columnWidth="0.06" value="1" minValue="1" allowBlank="false"/>
+      <Input id="EntryAmount" type="numberfield" decimalPrecision="2" name="Сумма" columnWidth="0.12" allowBlank="false"/>
+      <Combo id="EntryComment" name="Комментарий" labelWidth="100" columnWidth="0.5" onchange="CallEntryAutoGroups" allowBlank="false" editable="true" forceSelection="false" value="Id" display="Name" src="GetCommentAutoComplete">
+        <Template id="BaseComboList" itemSelector="combo-item" field_a="Name"/>
+      </Combo>
+      <Input id="EntryGroup" type="textfield" name="Группа" readOnly="true" labelWidth="100" columnWidth="0.22"/>
+      <Docked>
+        <Toolbar dock="bottom">
+          <Button id="SomeButton" call="action" targetId="SaveNewEntry" text="СОХРАНИТЬ" disabled="true">
+            <host.context scope="form" id="NewEntryForm" if="is-valid" />
+          </Button>
+        </Toolbar>
+      </Docked>
+    </Form>
+
+    <!-- Таблица с журналом затрат и кнопками управления 
+         (источник данных и столбцы данных описаны выше) -->
+    <Grid id="EntriesGrid" src="GetExpEntries" sel="multi" flex="1" title="ЖУРНАЛ" titleBackColor="darkbrown">
+      <Docked>
+        <Toolbar dock="top">
+          <Button id="CalcGroupsBtn" call="action" targetId="CalcAutoGroups" text="АВТОРАЗНЕСЕНИЕ ЗАТРАТ" disabled="true">
+            <host.context scope="input" id="EntryAmount" if="is-valid"/>
+          </Button>
+          <Separator margin="0 3" />
+          <Button id="SaveToXmlBtn" call="action" targetId="SaveSerializedXML" text="ВЫГРУЗКА В XML (ПОЛНАЯ)"/>
+          <Button id="SaveToEmptyXmlBtn" call="action" targetId="SaveSerializedEmptyXML" text="ВЫГРУЗКА В XML (ПРАВИЛА)"/>
+          <Separator margin="0 3" />
+          <Button id="RecalcGroupBtn" call="action" targetId="RecalcAutoGroup" text="ОБНОВИТЬ ГРУППУ ЗАТРАТ" needSelection="single" disabled="true">
+            <host.context scope="grid" if="has-selection"/>
+          </Button>
+        </Toolbar>
+      </Docked>
+    </Grid>
+
+  </View>
+  
+</App>

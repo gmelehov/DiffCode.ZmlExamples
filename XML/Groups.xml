@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- Этот XML транслируется в ExtJS-код, содержащийся в файле groups.js в каталоге JS
+     Обработка XML-кода производится всякий раз при открытии/обновлении страницы, 
+     имеющей то же название, что и этот файл -->
+<App id="ZmlApp" var="ZmlApp" ns="Zml" target="\js\groups.js" xmlns="ZMLSchema">
+
+  
+  <Compiler>
+    <CompileFolder path="\SenchaXml\ZML\CodeTemplates\">
+      <Script src="Param.js"/>
+      <Script src="ContextBinder.js"/>
+    </CompileFolder>
+  </Compiler>
+  
+  <!-- Описание источников данных для веб-приложения, 
+       включая параметры для запроса на бэкенд и представление 
+       ответа в виде столбцов таблиц данных -->
+  <Sources>
+    <Source id="GetExpGroups" name="Expenses/api/ExpGroups" baseUrl="/" provider="rest" pageSize="200" autoload="true" remoteSort="true" remoteFilter="true" descr="Хранилище данных для групп затрат.">
+      <Field id="Id" type="int" key="true"/>
+      <Field id="CatId" type="int"/>
+      <Field id="CatName" type="string" name="Категория" width="220" />
+      <Field id="Name" type="string" name="Группа" width="220" flex="1" editor="textfield" />
+      <Field id="IsExpense" type="boolean" name="Расход?" width="70" />
+      <Field id="IsDefault" type="boolean" name="По умолч.?" width="80" />
+      <Field id="ECount" type="int" name="Записей" width="80" />
+      <Field id="ESum" type="int" name="Затрат" width="110" format="currency" suffix=" руб." persist="false" />
+    </Source>
+  </Sources>
+
+   
+  <!-- Описание пользовательских команд для выполнения 
+       запросов/обработки нажатий на кнопки и т.п. -->
+  <Actions>
+    <Action id="ReloadGroupsGrid" run="local">
+      <call.source id="GetExpGroups"/>
+    </Action>
+    <Action id="SaveNewGroup" run="local">
+      <create.record id="GetExpGroups">
+        <Prm scope="grid" id="GroupsGrid" field="CatId"/>
+        <Prm as="Name" default="Новая группа"/>
+        <Prm as="IsExpense" default="true"/>
+        <Prm as="ESum" default="0"/>
+      </create.record>
+    </Action>
+  </Actions>
+
+ 
+  <!-- Описание пользовательского интерфейса для страницы Groups (работа с группами затрат) -->
+  <View layout="hbox" target="mainContainer" padding="15" splitterSize="10">
+    <Grid id="GroupsGrid" src="GetExpGroups" sel="single" title="Группы">
+      <Docked>
+        <Toolbar dock="top">
+          <Button id="CreateGrpButton" call="action" targetId="SaveNewGroup" icon="add_circle" color="darkgreen" text="СОЗДАТЬ ГРУППУ" needSelection="single" disabled="true">
+            <host.context scope="grid" id="GroupsGrid" if="has-selection" />
+          </Button>
+          <Separator margin="0 5" />
+          <Button id="TestButton" icon="add" color="darkindigo" text="TEST BUTTON" />
+        </Toolbar>
+      </Docked>
+    </Grid>
+  </View>
+
+</App>

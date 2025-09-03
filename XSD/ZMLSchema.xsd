@@ -1,0 +1,2197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<x:schema id="ZMLSchema" targetNamespace="ZMLSchema" elementFormDefault="qualified" xmlns="ZMLSchema" xmlns:x="http://www.w3.org/2001/XMLSchema">
+
+
+  <x:element name="App">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:element ref="Sources" minOccurs="0" maxOccurs="1"/>
+            <x:element ref="Actions" minOccurs="0" maxOccurs="1"/>
+            <x:element ref="Loaders" minOccurs="0" maxOccurs="1"/>
+            <x:element name="ViewPort" minOccurs="1" maxOccurs="1">
+              <x:complexType>
+                <x:complexContent>
+                  <x:extension base="AbstractPanel">
+                    <x:sequence>
+                      <x:element ref="Dialog" minOccurs="0" maxOccurs="unbounded"/>
+                    </x:sequence>
+                    <x:attribute name="target" type="x:string" use="optional"/>
+                    <x:attribute name="id" type="x:string" use="optional"/>
+                    <x:attribute name="autoSplitters" type="x:boolean" use="optional"/>
+                    <x:attribute name="splitterSize" type="x:positiveInteger" use="optional"/>
+                    <x:attribute name="splitterHover" type="x:boolean" use="optional"/>
+                    <x:attributeGroup ref="BaseViewAttrs"/>
+                    <x:attributeGroup ref="GBaseComponentAttrs"/>
+                  </x:extension>
+                </x:complexContent>
+              </x:complexType>
+            </x:element>
+          </x:sequence>
+          <x:attribute name="name" type="x:string" use="optional"/>
+          <x:attribute name="globalVar" type="x:string" use="optional"/>
+          <x:attribute name="target" type="x:string" use="optional"/>
+          <x:attribute name="onload" type="x:string" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+
+
+  <x:element name="Sources">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:element ref="Source" minOccurs="0" maxOccurs="unbounded"/>
+          </x:sequence>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Actions">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:element ref="Action" minOccurs="0" maxOccurs="unbounded"/>
+          </x:sequence>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Loaders">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:element ref="Loader" minOccurs="0" maxOccurs="unbounded"/>
+          </x:sequence>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+
+
+  <x:element name="Source">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:choice>
+              <x:sequence>
+                <x:element ref="Prm" minOccurs="0" maxOccurs="unbounded"/>
+                <x:choice minOccurs="1" maxOccurs="unbounded">
+                  <x:element ref="Field"/>
+                  <x:element ref="Fields"/>
+                </x:choice>
+              </x:sequence>
+              <x:element ref="Item" minOccurs="1" maxOccurs="unbounded" />
+            </x:choice>
+          </x:sequence>
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attribute name="name" type="x:string" use="required"/>
+          <x:attribute name="provider" type="EndPointInteractionLayer" use="required"/>
+          <x:attribute name="providerId" type="x:string" use="optional"/>
+          <x:attribute name="crud" type="x:boolean" use="optional"/>
+          <x:attribute name="baseUrl" type="x:anyURI" use="optional"/>
+          <x:attribute name="key" type="x:string" use="optional"/>
+          <x:attribute name="root" type="x:string" use="optional"/>
+          <x:attribute name="record" type="x:string" use="optional"/>
+          <x:attribute name="pageSize" use="optional">
+            <x:simpleType>
+              <x:union memberTypes="x:positiveInteger">
+                <x:simpleType>
+                  <x:restriction base="x:string">
+                    <x:enumeration value="auto"/>
+                  </x:restriction>
+                </x:simpleType>
+              </x:union>
+            </x:simpleType>
+          </x:attribute>
+          <x:attribute name="autoload" type="x:boolean" use="optional"/>
+          <x:attribute name="autosync" type="x:boolean" use="optional"/>
+          <x:attribute name="remoteSort" type="x:boolean" use="optional"/>
+          <x:attribute name="remoteFilter" type="x:boolean" use="optional"/>
+          <x:attribute name="descr" type="x:string" use="optional"/>
+          <x:attribute name="onload" type="x:string" use="optional"/>
+          <x:attribute name="onwrite" type="x:string" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Action">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:element ref="Prm" minOccurs="0" maxOccurs="unbounded" />
+            <x:element ref="Field" minOccurs="0" maxOccurs="unbounded" />
+            <x:group ref="GExecutables" minOccurs="0" maxOccurs="unbounded" />
+          </x:sequence>
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attribute name="name" type="x:string" use="optional"/>
+          <x:attribute name="baseUrl" type="x:anyURI" use="optional"/>
+          <x:attribute name="run" type="EndPointInteractionLayer" use="required"/>
+          <x:attribute name="providerId" type="x:string" use="optional"/>
+          <x:attribute name="method" type="HttpMethods" use="optional"/>
+          <x:attribute name="confirmText" type="x:string" use="optional"/>
+          <x:attribute name="descr" type="x:string" use="optional"/>
+          <x:attribute name="onaccept" type="x:string" use="optional"/>
+          <x:attribute name="onreject" type="x:string" use="optional"/>
+          <x:attribute name="onafterrequest" type="x:string" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+
+  
+  <x:complexType name="Loader">
+    <x:complexContent>
+      <x:extension base="HasRequiredId">
+        <x:sequence>
+          <x:element ref="Prm" minOccurs="0" maxOccurs="unbounded" />
+        </x:sequence>
+        <x:attribute name="url" type="x:anyURI" use="required"/>
+        <x:attribute name="mode" type="LoaderRenderMode" use="required"/>
+        <x:attribute name="replaceContent" type="x:boolean" use="optional"/>
+        <x:attribute name="onbeforeload" type="x:string" use="optional"/>
+        <x:attribute name="onafterload" type="x:string" use="optional"/>
+        <x:attribute name="descr" type="x:string" use="optional"/>
+      </x:extension>
+    </x:complexContent>
+  </x:complexType>
+  <x:element name="Loader" type="Loader" />
+  
+
+  
+  <x:element name="Panel" type="Panel" />
+  <x:element name="Form">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:element ref="Defaults" minOccurs="0" maxOccurs="1"/>
+            <x:choice minOccurs="0" maxOccurs="unbounded">
+              <x:element ref="Checkbox"/>
+              <x:element ref="NumberField"/>
+              <x:element ref="NumberSet"/>
+              <x:element ref="DateField"/>
+              <x:element ref="DateSet"/>
+              <x:element ref="TimeField"/>
+              <x:element ref="MonthCombo"/>
+              <x:element ref="TextField"/>
+              <x:element ref="TextArea"/>
+              <x:element ref="KeyValueInput"/>
+              <x:element ref="Combo"/>
+              <x:element ref="Collection"/>
+              <x:element ref="Inputs"/>
+              <x:element ref="Button"/>
+              <x:element ref="Form"/>
+            </x:choice>
+            <x:element ref="Docked" minOccurs="0" maxOccurs="1"/>
+          </x:sequence>
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attribute name="src" type="x:string" use="optional"/>
+          <x:attribute name="autoload" type="x:boolean" use="optional"/>
+          <x:attribute name="columnWidth" type="x:double" use="optional"/>
+          <x:attribute name="dock" type="DockSideTypes" use="optional"/>
+          <x:attributeGroup ref="GBaseComponentAttrs"/>
+          <x:attributeGroup ref="BasePanelAttrs"/>
+
+          <x:attribute name="onvalid" type="x:string" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Dialog">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:choice>
+              <x:sequence>
+                <x:choice minOccurs="0" maxOccurs="unbounded">
+                  <x:element ref="Tabpanel"/>
+                  <x:element ref="Panel"/>
+                  <x:element ref="Grid"/>
+                  <x:element ref="Form"/>
+                  <x:element ref="List"/>
+                  <x:element ref="Tree"/>
+                  <x:element ref="Chart"/>
+                  <x:element ref="Editor"/>
+                </x:choice>
+                <x:sequence minOccurs="0" maxOccurs="unbounded">
+                  <x:element ref="Splitter"/>
+                  <x:choice minOccurs="1" maxOccurs="unbounded">
+                    <x:element ref="Tabpanel"/>
+                    <x:element ref="Panel"/>
+                    <x:element ref="Grid"/>
+                    <x:element ref="Form"/>
+                    <x:element ref="List"/>
+                    <x:element ref="Tree"/>
+                    <x:element ref="Chart"/>
+                    <x:element ref="Editor"/>
+                  </x:choice>
+                </x:sequence>
+                <x:element ref="Docked" minOccurs="0" maxOccurs="1"/>
+              </x:sequence>
+              <x:sequence minOccurs="1" maxOccurs="unbounded">
+                <x:choice>
+                  <x:element ref="Inputs" minOccurs="0" maxOccurs="1"/>
+                  <x:element ref="Checkbox" minOccurs="0" maxOccurs="1"/>
+                  <x:element ref="NumberField" minOccurs="0" maxOccurs="1"/>
+                  <x:element ref="NumberSet" minOccurs="0" maxOccurs="1"/>
+                  <x:element ref="DateField" minOccurs="0" maxOccurs="1"/>
+                  <x:element ref="DateSet" minOccurs="0" maxOccurs="1"/>
+                  <x:element ref="TimeField" minOccurs="0" maxOccurs="1"/>
+                  <x:element ref="MonthCombo" minOccurs="0" maxOccurs="1"/>
+                  <x:element ref="TextField" minOccurs="0" maxOccurs="1"/>
+                  <x:element ref="TextArea" minOccurs="0" maxOccurs="1"/>
+                  <x:element ref="KeyValueInput" minOccurs="0" maxOccurs="1"/>
+                  <x:element ref="Combo" minOccurs="0" maxOccurs="1"/>
+                  <x:element ref="Collection" minOccurs="0" maxOccurs="1"/>
+                  <x:element ref="Button" minOccurs="0" maxOccurs="1"/>
+                </x:choice>
+              </x:sequence>
+            </x:choice>
+            <x:element ref="host.context" minOccurs="0" maxOccurs="unbounded"/>
+          </x:sequence>
+
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attribute name="modal" type="x:boolean" use="optional"/>
+          <x:attribute name="cls" type="x:string" use="optional"/>
+          <x:attribute name="layout" type="LayoutTypes" use="optional"/>
+          <x:attribute name="border" type="VisualBorderType" use="optional"/>
+          <x:attribute name="bodyBorder" type="VisualBorderType" use="optional"/>
+          <x:attribute name="bodyPadding" type="VisualBorderType" use="optional"/>
+          <x:attribute name="title" type="x:string" use="optional"/>
+          <x:attribute name="titleColor" type="ColorsEnum" use="optional"/>
+          <x:attribute name="titleBackColor" type="ColorsEnum" use="optional"/>
+          <x:attribute name="bodyBackColor" type="ColorsEnum" use="optional"/>
+          <x:attribute name="minHeight" type="VisualSizeFullType" use="optional"/>
+          <x:attribute name="maxHeight" type="VisualSizeFullType" use="optional"/>
+          <x:attribute name="minWidth" type="VisualSizeFullType" use="optional"/>
+          <x:attribute name="maxWidth" type="VisualSizeFullType" use="optional"/>
+          <x:attributeGroup ref="GVisualBoxAttrs"/>
+
+          <x:attribute name="stdButtons" type="x:boolean" use="optional"/>
+
+          <x:attribute name="onshow" type="x:string" use="optional"/>
+          <x:attribute name="oncancel" type="x:string" use="optional"/>
+          <x:attribute name="onconfirm" type="x:string" use="optional"/>
+          <x:attribute name="onafterconfirm" type="x:string" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Tabpanel">
+    <x:complexType>
+      <x:complexContent>
+        <x:extension base="AbstractPanel">
+          <x:attributeGroup ref="GBaseComponentAttrs"/>
+          <x:attributeGroup ref="BasePanelAttrs"/>
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attribute name="tabPosition" type="DockSideTypes" use="optional"/>
+
+          <x:attribute name="ontabexit" type="x:string" use="optional"/>
+          <x:attribute name="ontabenter" type="x:string" use="optional"/>
+          <x:attribute name="ontabcreate" type="x:string" use="optional"/>
+        </x:extension>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Grid">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:element ref="Docked" minOccurs="0" maxOccurs="1"/>
+            <x:element ref="Context.menu" minOccurs="0" maxOccurs="1"/>
+          </x:sequence>
+          <x:attributeGroup ref="GBaseComponentAttrs"/>
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attribute name="src" type="x:string" use="required"/>
+          <x:attribute name="sel" type="GridSelectionTypes" use="required"/>
+          <x:attribute name="create" type="x:string" use="optional"/>
+          <x:attribute name="update" type="x:string" use="optional"/>
+          <x:attribute name="delete" type="x:string" use="optional"/>
+          <x:attribute name="clipboard" type="x:boolean" use="optional"/>
+
+          <x:attribute name="hidePaging" type="x:boolean" use="optional"/>
+          <x:attribute name="hideHeaders" type="x:boolean" use="optional"/>
+          <x:attribute name="columnLines" type="x:boolean" use="optional"/>
+          <x:attribute name="rowLines" type="x:boolean" use="optional"/>
+          <x:attribute name="stripeRows" type="x:boolean" use="optional"/>
+          <x:attribute name="forceFit" type="x:boolean" use="optional"/>
+          <x:attribute name="textSelection" type="x:boolean" use="optional"/>
+
+          <x:attribute name="title" type="x:string" use="optional"/>
+          <x:attribute name="header" type="x:boolean" use="optional"/>
+          <x:attribute name="border" type="VisualBorderType" use="optional"/>
+          <x:attribute name="bodyBorder" type="VisualBorderType" use="optional"/>
+          <x:attribute name="bodyPadding" type="VisualBorderType" use="optional"/>
+          <x:attribute name="titleAlign" type="HAlignTypes" use="optional"/>
+          <x:attribute name="titleCollapse" type="x:boolean" use="optional"/>
+          <x:attribute name="collapsible" type="x:boolean" use="optional"/>
+          <x:attribute name="split" type="x:boolean" use="optional"/>
+          <x:attribute name="collapseTo" type="DockSideTypes" use="optional"/>
+          <x:attribute name="titleColor" type="ColorsEnum" use="optional"/>
+          <x:attribute name="titleBackColor" type="ColorsEnum" use="optional"/>
+          <x:attribute name="bodyBackColor" type="ColorsEnum" use="optional"/>
+
+          <x:attribute name="editor" type="GridEditingTypes" use="optional"/>
+          <x:attribute name="rowsDragDrop" type="x:boolean" use="optional"/>
+
+          <x:attribute name="onselect" type="x:string" use="optional"/>
+          <x:attribute name="ondeselect" type="x:string" use="optional"/>
+          <x:attribute name="ondblclick" type="x:string" use="optional"/>
+          <x:attribute name="onctxmenu" type="x:string" use="optional"/>
+          <x:attribute name="ondataload" type="x:string" use="optional"/>
+
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="List">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:element ref="Template" minOccurs="1" maxOccurs="1"/>
+            <x:sequence>
+              <x:element ref="Item" minOccurs="0" maxOccurs="unbounded"/>
+            </x:sequence>
+          </x:sequence>
+          <x:attributeGroup ref="GBaseComponentAttrs"/>
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attribute name="src" type="x:string" use="optional"/>
+          <x:attribute name="sel" type="GridSelectionTypes" use="required"/>
+
+          <x:attribute name="hidePaging" type="x:boolean" use="optional"/>
+          <x:attribute name="hideHeaders" type="x:boolean" use="optional"/>
+          <x:attribute name="pagingDock" type="DockSideTypes" use="optional"/>
+
+          <x:attribute name="title" type="x:string" use="optional"/>
+          <x:attribute name="header" type="x:boolean" use="optional"/>
+          <x:attribute name="border" type="VisualBorderType" use="optional"/>
+          <x:attribute name="bodyBorder" type="VisualBorderType" use="optional"/>
+          <x:attribute name="bodyPadding" type="VisualBorderType" use="optional"/>
+          <x:attribute name="titleAlign" type="HAlignTypes" use="optional"/>
+          <x:attribute name="titleCollapse" type="x:boolean" use="optional"/>
+          <x:attribute name="collapsible" type="x:boolean" use="optional"/>
+          <x:attribute name="split" type="x:boolean" use="optional"/>
+          <x:attribute name="collapseTo" type="DockSideTypes" use="optional"/>
+          <x:attribute name="titleColor" type="ColorsEnum" use="optional"/>
+          <x:attribute name="titleBackColor" type="ColorsEnum" use="optional"/>
+          <x:attribute name="bodyBackColor" type="ColorsEnum" use="optional"/>
+
+          <x:attribute name="onselect" type="x:string" use="optional"/>
+          <x:attribute name="ondeselect" type="x:string" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Tree">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:element ref="Docked" minOccurs="0" maxOccurs="1"/>
+          </x:sequence>
+          <x:attributeGroup ref="GBaseComponentAttrs"/>
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attribute name="src" type="x:string" use="required"/>
+          <x:attribute name="sel" type="GridSelectionTypes" use="required"/>
+          <x:attribute name="create" type="x:string" use="optional"/>
+          <x:attribute name="update" type="x:string" use="optional"/>
+          <x:attribute name="delete" type="x:string" use="optional"/>
+
+          <x:attribute name="rowCls" type="x:string" use="optional"/>
+          <x:attribute name="hideHeaders" type="x:boolean" use="optional"/>
+          <x:attribute name="forceFit" type="x:boolean" use="optional"/>
+
+          <x:attribute name="title" type="x:string" use="optional"/>
+          <x:attribute name="header" type="x:boolean" use="optional"/>
+          <x:attribute name="border" type="VisualBorderType" use="optional"/>
+          <x:attribute name="bodyBorder" type="VisualBorderType" use="optional"/>
+          <x:attribute name="bodyPadding" type="VisualBorderType" use="optional"/>
+          <x:attribute name="titleAlign" type="HAlignTypes" use="optional"/>
+          <x:attribute name="titleCollapse" type="x:boolean" use="optional"/>
+          <x:attribute name="collapsible" type="x:boolean" use="optional"/>
+          <x:attribute name="split" type="x:boolean" use="optional"/>
+          <x:attribute name="collapseTo" type="DockSideTypes" use="optional"/>
+
+          <x:attribute name="expanded" type="x:boolean" use="optional"/>
+
+          <x:attribute name="titleColor" type="ColorsEnum" use="optional"/>
+          <x:attribute name="titleBackColor" type="ColorsEnum" use="optional"/>
+          <x:attribute name="bodyBackColor" type="ColorsEnum" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Splitter">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:attribute name="collapseTarget" type="CollapseTargetTypes" use="required"/>
+          <x:attribute name="size" type="x:positiveInteger" use="optional"/>
+          <x:attribute name="overCls" type="x:string" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Docked">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:choice maxOccurs="unbounded">
+              <x:element ref="Toolbar" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="Form" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="Panel" minOccurs="0" maxOccurs="1"/>
+            </x:choice>
+          </x:sequence>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Toolbar">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:choice minOccurs="0" maxOccurs="unbounded">
+              <x:element ref="Button" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="TextBlock" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="Spacer" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="Separator" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="Checkbox" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="NumberField" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="NumberSet" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="DateField" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="DateSet" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="TimeField" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="MonthCombo" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="TextField" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="TextArea" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="KeyValueInput" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="Combo" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="Collection" minOccurs="0" maxOccurs="1"/>
+            </x:choice>
+          </x:sequence>
+          <x:attribute name="dock" type="DockSideTypes" use="required"/>
+          <x:attribute name="vertical" type="x:boolean" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Separator">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:attributeGroup ref="GVisualBoxAttrs"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="TextBlock">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:attributeGroup ref="GVisualBoxAttrs"/>
+          <x:attribute name="text" type="x:string" use="required"/>
+          <x:attribute name="id" type="x:string" use="optional"/>
+          <x:attribute name="flex" type="x:double" use="optional"/>
+          <x:attribute name="align" type="AlignTypesEnum" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Spacer">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:attributeGroup ref="GVisualBoxAttrs"/>
+          <x:attribute name="flex" type="x:double" use="optional"/>
+          <x:attribute name="separators" type="TbSeparatorPosition" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Button">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:element ref="host.context" minOccurs="0" maxOccurs="unbounded"/>
+            <x:group ref="GExecutables" minOccurs="0" maxOccurs="unbounded" />
+          </x:sequence>
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attribute name="call" type="ButtonCallTypes" use="optional"/>
+          <x:attribute name="targetId" type="x:string" use="optional"/>
+          <x:attribute name="text" type="x:string" use="optional"/>
+          <x:attribute name="color" type="ColorsEnum" use="optional"/>
+          <x:attribute name="icon" type="x:string" use="optional"/>
+          <x:attribute name="iconSet" type="FontIconSet" use="optional"/>
+          <x:attribute name="align" type="AlignTypesEnum" use="optional"/>
+          <x:attribute name="tooltip" type="x:string" use="optional"/>
+          <x:attribute name="disabled" type="x:boolean" use="optional"/>
+          <x:attribute name="columnWidth" type="x:double" use="optional"/>
+          <x:attribute name="needSelection" type="SelectedCountEnum" use="optional"/>
+          <x:attribute name="onafterclick" type="x:string" use="optional"/>
+          <x:attributeGroup ref="GVisualBoxAttrs"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+
+
+
+
+  <x:complexType name="AbstractInputContent" abstract="true">
+    <x:complexContent>
+      <x:restriction base="NSElement">
+        <x:sequence>
+          <x:element ref="host.context" minOccurs="0" maxOccurs="unbounded"/>
+        </x:sequence>
+        <x:attributeGroup ref="CommonFormItemAttrs" />
+        <x:attributeGroup ref="CommonInputAttrs" />
+      </x:restriction>
+    </x:complexContent>
+  </x:complexType>
+
+
+
+  <x:element name="Checkbox">
+    <x:complexType>
+      <x:complexContent>
+        <x:extension base="AbstractInputContent">
+          <x:attribute name="checked" type="x:boolean" use="optional"/>
+          <x:attribute name="inputValue" type="FormFieldDataTypes" use="optional"/>
+        </x:extension>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+
+
+  <x:complexType name="TextField">
+    <x:complexContent>
+      <x:extension base="AbstractInputContent">
+        <x:attribute name="convertQuotes" type="x:boolean" use="optional"/>
+        <x:attribute name="emptyText" type="x:string" use="optional"/>
+      </x:extension>
+    </x:complexContent>
+  </x:complexType>
+  <x:element name="TextField" type="TextField" />
+  <x:element name="TextArea">
+    <x:complexType>
+      <x:complexContent>
+        <x:extension base="TextField">
+          <x:attribute name="rows" type="x:positiveInteger" use="optional"/>
+        </x:extension>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+
+
+  <x:complexType name="DateField">
+    <x:complexContent>
+      <x:extension base="AbstractInputContent">
+        <x:attribute name="format" type="x:string" use="optional"/>
+        <x:attribute name="startDay" type="x:positiveInteger" use="optional"/>
+      </x:extension>
+    </x:complexContent>
+  </x:complexType>
+  <x:element name="DateField" type="DateField" />
+  <x:element name="DateSet">
+    <x:complexType>
+      <x:complexContent>
+        <x:extension base="DateField">
+          <x:attribute name="delimiter" type="x:string" use="optional"/>
+        </x:extension>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+
+
+  <x:complexType name="MonthCombo">
+    <x:complexContent>
+      <x:extension base="AbstractInputContent">
+        <x:sequence>
+          <x:element ref="Template" minOccurs="0" maxOccurs="1"/>
+        </x:sequence>
+        <x:attributeGroup ref="CommonComboAttrs" />
+      </x:extension>
+    </x:complexContent>
+  </x:complexType>
+  <x:element name="MonthCombo" type="MonthCombo" />
+  <x:complexType name="Combo">
+    <x:complexContent>
+      <x:extension base="MonthCombo">       
+        <x:attribute name="src" type="x:string" use="required"/>
+      </x:extension>
+    </x:complexContent>
+  </x:complexType>
+  <x:element name="Combo" type="Combo" />
+  
+  
+
+  <x:complexType name="NumberField">
+    <x:complexContent>
+      <x:extension base="AbstractInputContent">
+        <x:attribute name="decimalPrecision" type="x:nonNegativeInteger" use="optional"/>
+        <x:attribute name="minValue" type="FormFieldDataTypes" use="optional"/>
+        <x:attribute name="maxValue" type="FormFieldDataTypes" use="optional"/>
+        <x:attribute name="step" type="x:decimal" use="optional"/>
+        <x:attribute name="value" type="x:decimal" use="optional"/>
+      </x:extension>
+    </x:complexContent>
+  </x:complexType>
+  <x:element name="NumberField" type="NumberField" />
+  <x:element name="NumberSet">
+    <x:complexType>
+      <x:complexContent>
+        <x:extension base="NumberField">
+          <x:attribute name="delimiter" type="x:string" use="optional"/>
+        </x:extension>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+
+
+  <x:complexType name="TimeField">
+    <x:complexContent>
+      <x:extension base="AbstractInputContent">
+        <x:attribute name="format" type="x:string" use="optional"/>
+        <x:attribute name="increment" type="x:int" use="optional"/>
+      </x:extension>
+    </x:complexContent>
+  </x:complexType>
+  <x:element name="TimeField" type="TimeField" />
+
+
+  <x:complexType name="KeyValueInput">
+    <x:complexContent>
+      <x:extension base="AbstractInputContent">
+        <x:attribute name="delimiter" type="x:string" use="optional"/>
+        <x:attribute name="valueType" use="optional">
+          <x:simpleType>
+            <x:restriction base="x:string">
+              <x:enumeration value="text"/>
+              <x:enumeration value="number"/>
+              <x:enumeration value="date"/>
+              <x:enumeration value="time"/>
+            </x:restriction>
+          </x:simpleType>
+        </x:attribute>
+      </x:extension>
+    </x:complexContent>
+  </x:complexType>
+  <x:element name="KeyValueInput" type="KeyValueInput" />
+
+
+  <x:complexType name="Collection">
+    <x:complexContent>
+      <x:extension base="AbstractInputContent">
+        <x:attribute name="kvDelimiter" type="x:string" use="optional"/>
+        <x:attribute name="itemsDelimiter" type="x:string" use="optional"/>
+        <x:attribute name="uniqueItems" type="x:boolean" use="optional"/>
+        <x:attribute name="itemsType" use="optional">
+          <x:simpleType>
+            <x:restriction base="x:string">
+              <x:enumeration value="text"/>
+              <x:enumeration value="number"/>
+              <x:enumeration value="date"/>
+              <x:enumeration value="keyvalue"/>
+            </x:restriction>
+          </x:simpleType>
+        </x:attribute>
+        <x:attribute name="submit-as" use="optional">
+          <x:simpleType>
+            <x:restriction base="x:string">
+              <x:enumeration value="string"/>
+              <x:enumeration value="array"/>
+              <x:enumeration value="object"/>
+            </x:restriction>
+          </x:simpleType>
+        </x:attribute>
+        <x:attribute name="showIndices" type="x:boolean" use="optional"/>
+      </x:extension>
+    </x:complexContent>
+  </x:complexType>
+  <x:element name="Collection" type="Collection" />
+
+
+
+
+
+  <!-- АТРИБУТЫ, ОБЩИЕ ДЛЯ ВСЕХ ЭЛЕМЕНТОВ ФОРМ ВВОДА ДАННЫХ -->
+  <x:attributeGroup name="CommonFormItemAttrs">
+    <x:attributeGroup ref="GVisualBoxAttrs" />
+    <x:attribute name="allowBlank" type="x:boolean" use="optional"/>
+    <x:attribute name="anchor" type="x:string" use="optional"/>
+    <x:attribute name="cls" type="x:string" use="optional"/>
+    <x:attribute name="columnWidth" type="x:double" use="optional"/>
+    <x:attribute name="disabled" type="x:boolean" use="optional"/>
+    <x:attribute name="flex" type="x:double" use="optional"/>
+    <x:attribute name="labelAlign" type="LabelAlignTypes" use="optional"/>
+    <x:attribute name="labelClsExtra" type="x:string" use="optional"/>
+    <x:attribute name="labelWidth" type="x:int" use="optional"/>
+    <x:attribute name="minHeight" type="VisualSizeFullType" use="optional"/>
+    <x:attribute name="maxHeight" type="VisualSizeFullType" use="optional"/>
+    <x:attribute name="minWidth" type="VisualSizeFullType" use="optional"/>
+    <x:attribute name="maxWidth" type="VisualSizeFullType" use="optional"/>
+  </x:attributeGroup>
+
+  <!-- АТРИБУТЫ, ОБЩИЕ ДЛЯ ВСЕХ ЭЛЕМЕНТОВ ВВОДА ДАННЫХ -->
+  <x:attributeGroup name="CommonInputAttrs">
+    <x:attribute name="autoSync" type="x:boolean" use="optional"/>
+    <x:attribute name="id" type="x:string" use="required"/>
+    <x:attribute name="name" type="x:string" use="optional"/>
+    <x:attribute name="readOnly" type="x:boolean" use="optional"/>
+    <x:attribute name="region" type="RegionTypes" use="optional"/>
+    <x:attribute name="tooltip" type="x:string" use="optional"/>
+    <x:attribute name="onchange" type="x:string" use="optional"/>
+  </x:attributeGroup>
+
+  <!-- АТРИБУТЫ, ОБЩИЕ ДЛЯ ВСЕХ ЭЛЕМЕНТОВ ВВОДА ДАННЫХ, ОСНОВАННЫХ НА КОМБОБОКСЕ -->
+  <x:attributeGroup name="CommonComboAttrs">
+    <x:attribute name="descr" type="x:string" use="optional"/>
+    <x:attribute name="display" type="x:string" use="required"/>
+    <x:attribute name="forceSelection" type="x:boolean" use="optional"/>
+    <x:attribute name="multiSelect" type="x:boolean" use="optional"/>
+    <x:attribute name="editable" type="x:boolean" use="optional"/>
+    <x:attribute name="value" type="x:string" use="required"/>
+    <x:attribute name="defaultValue" type="x:string" use="optional"/>
+    <x:attribute name="minChars" type="x:positiveInteger" use="optional"/>
+  </x:attributeGroup>
+
+
+
+  <x:element name="Inputs">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence minOccurs="0" maxOccurs="unbounded">
+            <x:choice>
+              <x:element ref="Checkbox"/>
+              <x:element ref="NumberField"/>
+              <x:element ref="NumberSet"/>
+              <x:element ref="DateField"/>
+              <x:element ref="DateSet"/>
+              <x:element ref="TimeField"/>
+              <x:element ref="MonthCombo"/>
+              <x:element ref="TextField"/>
+              <x:element ref="TextArea"/>
+              <x:element ref="KeyValueInput"/>
+              <x:element ref="Combo"/>
+              <x:element ref="Collection"/>
+              <x:element ref="Button"/>
+            </x:choice>
+          </x:sequence>
+          <x:attributeGroup ref="GFormDefaultAttrs"/>
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attribute name="title" type="x:string" use="required"/>
+          <x:attribute name="collapsible" type="x:boolean" fixed="true"/>
+          <x:attribute name="layout" type="LayoutTypes" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Defaults">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:attributeGroup ref="CommonFormItemAttrs" />
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Editor">
+    <x:complexType>
+      <x:complexContent>
+        <x:extension base="AbstractPanel">
+          <x:attributeGroup ref="GBaseComponentAttrs"/>
+          <x:attributeGroup ref="BasePanelAttrs"/>
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attribute name="mode" type="EditorLangs" use="required"/>
+          <x:attribute name="tabSize" type="x:positiveInteger" use="optional"/>
+          <x:attribute name="lineNumbers" type="x:boolean" use="optional"/>
+          <x:attribute name="lineWrap" type="x:boolean" use="optional"/>
+          <x:attribute name="theme" type="x:string" use="optional"/>
+          <x:attribute name="onchange" type="x:string" use="optional"/>
+        </x:extension>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Portal">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:element name="Column" minOccurs="1" maxOccurs="12">
+              <x:complexType>
+                <x:complexContent>
+                  <x:restriction base="NSElement">
+                    <x:sequence>
+                      <x:element name="Portlet" minOccurs="0" maxOccurs="unbounded">
+                        <x:complexType>
+                          <x:complexContent>
+                            <x:extension base="AbstractPanel">
+                              <x:attributeGroup ref="GBaseComponentAttrs"/>
+                              <x:attributeGroup ref="BasePanelAttrs"/>
+                              <x:attribute name="id" type="x:string" use="required"/>
+                              <x:attribute name="closable" type="x:boolean" use="optional"/>
+                            </x:extension>
+                          </x:complexContent>
+                        </x:complexType>
+                      </x:element>
+                    </x:sequence>
+                    <x:attribute name="columnWidth" use="optional">
+                      <x:simpleType>
+                        <x:restriction base="x:double">
+                          <x:minExclusive value="0"/>
+                          <x:maxInclusive value="1"/>
+                        </x:restriction>
+                      </x:simpleType>
+                    </x:attribute>
+                  </x:restriction>
+                </x:complexContent>
+              </x:complexType>
+            </x:element>
+          </x:sequence>
+          <x:attribute name="id" type="x:string" use="required"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="FieldList">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:choice minOccurs="0" maxOccurs="unbounded">
+              <x:element ref="Checkbox"/>
+              <x:element ref="NumberField"/>
+              <x:element ref="NumberSet"/>
+              <x:element ref="DateField"/>
+              <x:element ref="DateSet"/>
+              <x:element ref="TimeField"/>
+              <x:element ref="MonthCombo"/>
+              <x:element ref="TextField"/>
+              <x:element ref="TextArea"/>
+              <x:element ref="KeyValueInput"/>
+              <x:element ref="Combo"/>
+              <x:element ref="Collection"/>
+            </x:choice>
+            <x:element ref="Docked" minOccurs="0" maxOccurs="1"/>
+          </x:sequence>
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attribute name="src" type="x:string" use="optional"/>
+          <x:attribute name="autoload" type="x:boolean" use="optional"/>
+          <x:attribute name="columnWidth" type="x:double" use="optional"/>
+          <x:attribute name="dock" type="DockSideTypes" use="optional"/>
+          <x:attributeGroup ref="GBaseComponentAttrs"/>
+          <x:attributeGroup ref="BasePanelAttrs"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="CheckList">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:element ref="host.context" minOccurs="0" maxOccurs="unbounded"/>
+          </x:sequence>
+          <x:attributeGroup ref="GBaseComponentAttrs"/>
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attribute name="src" type="x:string" use="required"/>
+          <x:attribute name="type" type="CheckListTypes" use="optional"/>
+          <x:attribute name="valueAs" type="CheckListValueTypes" use="required"/>
+
+          <x:attribute name="idField" type="x:string" use="required"/>
+          <x:attribute name="nameField" type="x:string" use="optional"/>
+          <x:attribute name="displayField" type="x:string" use="required"/>
+          <x:attribute name="descrField" type="x:string" use="optional"/>
+          <x:attribute name="valueField" type="x:string" use="optional"/>
+          <x:attribute name="activeField" type="x:string" use="required"/>
+
+          <x:attribute name="needSelection" type="SelectedCountEnum" use="optional"/>
+          <x:attribute name="onchange" type="x:string" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+
+
+
+
+  <x:element name="Chart">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:element name="axis" minOccurs="0" maxOccurs="4">
+              <x:complexType>
+                <x:complexContent>
+                  <x:restriction base="NSElement">
+                    <x:attribute name="position" type="DockSideTypes" use="required"/>
+                    <x:attribute name="type" type="ChartAxisTypes" use="required"/>
+                    <x:attribute name="title" type="x:string" use="optional"/>
+                    <x:attribute name="grid" type="x:boolean" use="optional"/>
+                    <x:attribute name="min" type="x:double" use="optional"/>
+                    <x:attribute name="max" type="x:double" use="optional"/>
+                    <x:attribute name="fields" type="ListOfStrings" use="required"/>
+                  </x:restriction>
+                </x:complexContent>
+              </x:complexType>
+            </x:element>
+            <x:choice minOccurs="0" maxOccurs="unbounded">
+              <x:element ref="pie.series"/>
+              <x:element ref="bar.series"/>
+              <x:element ref="line.series"/>
+            </x:choice>
+          </x:sequence>
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attribute name="src" type="x:string" use="required"/>
+          <x:attribute name="animate" type="x:boolean" use="optional"/>
+          <x:attribute name="shadow" type="x:boolean" use="optional"/>
+          <x:attribute name="legend" type="DockSideTypes" use="optional"/>
+          <x:attribute name="border" type="VisualBorderType" use="optional"/>
+          <x:attribute name="theme" type="x:string" use="optional"/>
+          <x:attribute name="insetPadding" type="VisualBorderType" use="optional"/>
+          <x:attributeGroup ref="GBaseComponentAttrs"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="pie.series">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:attribute name="xfield" type="x:string" use="required"/>
+          <x:attribute name="labelfield" type="ListOfStrings" use="optional"/>
+          <x:attribute name="labelPos" type="SeriesLabelPosition" use="optional"/>
+          <x:attribute name="showInLegend" type="x:boolean" use="optional"/>
+          <x:attribute name="title" type="x:string" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="bar.series">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:attribute name="column" type="x:boolean" use="required"/>
+          <x:attribute name="axis" use="required">
+            <x:simpleType>
+              <x:list itemType="DockSideTypes"/>
+            </x:simpleType>
+          </x:attribute>
+          <x:attribute name="highlight" type="x:boolean" use="optional"/>
+          <x:attribute name="stacked" type="x:boolean" use="optional"/>
+          <x:attribute name="showInLegend" type="x:boolean" use="optional"/>
+          <x:attribute name="xfield" type="x:string" use="optional"/>
+          <x:attribute name="yfield" type="ListOfStrings" use="optional"/>
+          <x:attribute name="labelPos" type="SeriesLabelPosition" use="optional"/>
+          <x:attribute name="title" type="x:string" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="line.series">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:attribute name="axis" use="required">
+            <x:simpleType>
+              <x:list itemType="DockSideTypes"/>
+            </x:simpleType>
+          </x:attribute>
+          <x:attribute name="fill" type="x:boolean" use="optional"/>
+          <x:attribute name="highlight" type="x:boolean" use="optional"/>
+          <x:attribute name="showInLegend" type="x:boolean" use="optional"/>
+          <x:attribute name="showMarkers" type="x:boolean" use="optional"/>
+          <x:attribute name="smooth" type="x:boolean" use="optional"/>
+          <x:attribute name="xfield" type="x:string" use="optional"/>
+          <x:attribute name="yfield" type="ListOfStrings" use="optional"/>
+          <x:attribute name="labelPos" type="SeriesLabelPosition" use="optional"/>
+          <x:attribute name="title" type="x:string" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+
+
+
+
+
+
+
+  <x:element name="host.context">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:attribute name="for" type="x:string" use="optional"/>
+          <x:attribute name="scope" type="ContextScopes" use="required"/>
+          <x:attribute name="id" type="x:string" use="optional"/>
+          <x:attribute name="if" type="EnablingContexts" use="optional"/>
+          <x:attribute name="on" type="x:string" use="optional"/>
+          <x:attribute name="needSelection" type="SelectedCountEnum" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+
+
+
+  <x:element name="Template">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attribute name="itemSelector" type="x:string" use="required"/>
+          <x:attribute name="field_a" type="x:string" use="required"/>
+          <x:attribute name="field_b" type="x:string" use="optional"/>
+          <x:attribute name="field_c" type="x:string" use="optional"/>
+          <x:attribute name="field_d" type="x:string" use="optional"/>
+          <x:attribute name="field_e" type="x:string" use="optional"/>
+          <x:attribute name="field_f" type="x:string" use="optional"/>
+          <x:attribute name="field_g" type="x:string" use="optional"/>
+          <x:attribute name="field_h" type="x:string" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Item">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="AAnyElement">
+          <x:anyAttribute namespace="##any" processContents="lax"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+
+
+
+
+
+
+
+
+  <x:complexType name="HasRequiredId">
+    <x:complexContent>
+      <x:restriction base="NSElement">
+        <x:attribute name="id" type="x:string" use="required" />
+      </x:restriction>
+    </x:complexContent>
+  </x:complexType>
+  <x:complexType name="HasOptionalId">
+    <x:complexContent>
+      <x:restriction base="NSElement">
+        <x:attribute name="id" type="x:string" use="optional" />
+      </x:restriction>
+    </x:complexContent>
+  </x:complexType>
+
+  <x:element name="call.action" type="HasRequiredId" />
+  <x:element name="call.dialog" type="HasRequiredId" />
+  <x:element name="call.source" type="HasRequiredId" />
+  <x:element name="set.prop">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:group ref="GValuables" minOccurs="0" maxOccurs="unbounded"/>
+          </x:sequence>
+          <x:attribute name="targetType" use="required" type="TargetEntities"/>
+          <x:attribute name="targetId" type="x:string" use="required"/>
+          <x:attribute name="targetProp" type="PropertyNames" use="required"/>
+          <x:attribute name="delimiter" type="x:string" use="optional"/>
+          <x:attribute name="sourceType" type="TargetEntities" use="optional"/>
+          <x:attribute name="sourceId" type="x:string" use="optional"/>
+          <x:attribute name="sourceProp" type="PropertyNames" use="optional"/>
+          <x:attribute name="record" type="x:nonNegativeInteger" use="optional"/>
+          <x:attribute name="as" type="x:string" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="clear.input" type="HasRequiredId" />
+  <x:element name="clear.editor" type="HasRequiredId" />
+  <x:element name="load.component" type="HasOptionalId" />
+  <x:element name="reset.component" type="HasOptionalId" />
+  <x:element name="create.record">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:element ref="Prm" minOccurs="1" maxOccurs="unbounded"/>
+          </x:sequence>
+          <x:attribute name="id" type="x:string" use="required"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="remove.row">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:attribute name="id" type="x:string" use="required"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="console.dir">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:group ref="GValuables" minOccurs="0" maxOccurs="unbounded"/>
+          </x:sequence>
+          <x:attribute name="text" type="x:string" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="menu.item">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attributeGroup ref="GMenuItemAttrs" />
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="sub.menu">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence minOccurs="0" maxOccurs="unbounded">
+            <x:choice>
+              <x:element ref="menu.item" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="sub.menu" minOccurs="0" maxOccurs="1"/>
+            </x:choice>
+          </x:sequence>
+          <x:attribute name="id" type="x:string" use="required"/>
+          <x:attributeGroup ref="GMenuItemAttrs"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Context.menu">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence minOccurs="0" maxOccurs="unbounded">
+            <x:choice>
+              <x:element ref="menu.item" minOccurs="0" maxOccurs="1"/>
+              <x:element ref="sub.menu" minOccurs="0" maxOccurs="1"/>
+            </x:choice>
+          </x:sequence>
+          <x:attribute name="title" type="x:string" use="optional"/>
+          <x:attribute name="maxWidth" type="VisualSizeFullType" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+
+
+  <x:complexType name="CanAddOrRemoveValues">
+    <x:complexContent>
+      <x:restriction base="NSElement">
+        <x:sequence>
+          <x:element ref="get.prop" minOccurs="0" maxOccurs="1" />
+        </x:sequence>
+        <x:attribute name="targetType" use="required" type="TargetEntities"/>
+        <x:attribute name="targetId" type="x:string" use="required"/>
+        <x:attribute name="targetProp" type="PropertyNames" use="required"/>
+        <x:attribute name="sourceType" type="TargetEntities" use="optional"/>
+        <x:attribute name="sourceId" type="x:string" use="optional"/>
+        <x:attribute name="sourceProp" type="PropertyNames" use="optional"/>
+        <x:attribute name="record" type="x:nonNegativeInteger" use="optional"/>
+        <x:attribute name="value" type="x:string" use="optional"/>
+      </x:restriction>
+    </x:complexContent>
+  </x:complexType>
+
+  <x:element name="add.value" type="CanAddOrRemoveValues" />
+  <x:element name="remove.value" type="CanAddOrRemoveValues" />
+
+
+
+
+
+
+  <x:element name="get.text">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:attribute name="value" type="x:string" use="required"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="get.number">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:attribute name="value" type="x:double" use="required"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="get.prop">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:attribute name="name" type="PropertyNames" use="required"/>
+          <x:attribute name="scope" type="TargetEntities" use="required"/>
+          <x:attribute name="scopeId" type="x:string" use="required"/>
+          <x:attribute name="record" type="x:nonNegativeInteger" use="optional"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+
+
+
+
+
+  <x:group name="GValuables">
+    <x:choice>
+      <x:element ref="get.number"/>
+      <x:element ref="get.prop"/>
+      <x:element ref="get.text"/>
+    </x:choice>
+  </x:group>
+  <x:group name="GExecutables">
+    <x:choice>
+      <x:element ref="add.value" />
+      <x:element ref="remove.value" />
+      <x:element ref="call.action" />
+      <x:element ref="call.source" />
+      <x:element ref="call.dialog" />
+      <x:element ref="set.prop" />
+      <x:element ref="clear.input" />
+      <x:element ref="clear.editor" />
+      <x:element ref="create.record" />
+      <x:element ref="remove.row" />
+      <x:element ref="console.dir" />
+      <x:element ref="load.component" />
+      <x:element ref="reset.component" />
+    </x:choice>
+  </x:group>
+
+
+
+
+
+  <x:element name="Prm">
+    <x:complexType>
+      <x:complexContent>
+        <x:extension base="NSElement">
+          <x:attribute name="id" type="x:string" use="optional"/>
+          <x:attribute name="scope" type="ParamScopes" use="optional"/>
+          <x:attribute name="field" type="x:string" use="optional"/>
+          <x:attribute name="as" type="x:string" use="optional"/>
+          <x:attribute name="default" type="x:string" use="optional"/>
+          <x:attribute name="record" type="x:nonNegativeInteger" use="optional"/>
+          <x:attribute name="asp-from" use="optional">
+            <x:simpleType>
+              <x:restriction base="x:string">
+                <x:enumeration value="route" />
+                <x:enumeration value="query" />
+                <x:enumeration value="body" />
+                <x:enumeration value="header" />
+              </x:restriction>
+            </x:simpleType>
+          </x:attribute>
+        </x:extension>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+
+  <x:element name="Field" type="Field" />
+  <x:element name="Fields">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:sequence>
+            <x:element name="Field" minOccurs="1" maxOccurs="10">
+              <x:complexType>
+                <x:complexContent>
+                  <x:restriction base="Field">
+                    <x:sequence>
+                      <x:element ref="Icon" minOccurs="0" maxOccurs="unbounded"/>
+                    </x:sequence>
+                    <x:attribute name="name" type="x:string" use="required"/>
+                  </x:restriction>
+                </x:complexContent>
+              </x:complexType>
+            </x:element>
+          </x:sequence>
+          <x:attribute name="name" type="x:string" use="required"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+  <x:element name="Icon">
+    <x:complexType>
+      <x:complexContent>
+        <x:restriction base="NSElement">
+          <x:attribute name="name" type="x:string" use="required"/>
+          <x:attribute name="color" type="x:string" use="optional"/>
+          <x:attribute name="tooltip" type="x:string" use="optional"/>
+          <x:attribute name="title" type="x:string" use="optional"/>
+          <x:attribute name="value" type="FormFieldDataTypes" use="required"/>
+        </x:restriction>
+      </x:complexContent>
+    </x:complexType>
+  </x:element>
+
+  <x:complexType name="Field">
+    <x:complexContent>
+      <x:restriction base="NSElement">
+        <x:sequence>
+          <x:element ref="Icon" minOccurs="0" maxOccurs="unbounded"/>
+        </x:sequence>
+        <x:attribute name="id" type="x:string" use="required"/>
+        <x:attribute name="type" type="SystemTypesEnum" use="required"/>
+        <x:attribute name="name" type="x:string" use="optional"/>
+        <x:attribute name="req" type="x:boolean" use="optional"/>
+        <x:attribute name="key" type="x:boolean" use="optional"/>
+        <x:attribute name="group" type="x:boolean" use="optional"/>
+        <x:attribute name="summary" type="SummaryTypes" use="optional"/>
+        <x:attribute name="mapping" type="x:string" use="optional"/>
+        <x:attribute name="default" type="x:string" use="optional"/>
+        <x:attribute name="nullable" type="x:boolean" use="optional"/>
+        <x:attribute name="joinby" type="x:string" use="optional"/>
+        <x:attribute name="tree" type="x:boolean" use="optional"/>
+        <x:attribute name="align" type="HAlignTypes" use="optional"/>
+        <x:attribute name="tooltip" type="x:string" use="optional"/>
+        <x:attribute name="format" use="optional">
+          <x:simpleType>
+            <x:union memberTypes="DateFormatsAll x:string">
+              <x:simpleType>
+                <x:restriction base="x:string">
+                  <x:enumeration value="fileSize"/>
+                  <x:enumeration value="uppercase"/>
+                  <x:enumeration value="lowercase"/>
+                  <x:enumeration value="capitalize"/>
+                  <x:enumeration value="currency"/>
+                </x:restriction>
+              </x:simpleType>
+            </x:union>
+          </x:simpleType>
+        </x:attribute>
+        <x:attribute name="persist" type="x:boolean" use="optional"/>
+        <x:attribute name="precision" type="x:positiveInteger" use="optional"/>
+        <x:attribute name="prefix" type="x:string" use="optional"/>
+        <x:attribute name="suffix" type="x:string" use="optional"/>
+        <x:attribute name="cls" type="x:string" use="optional"/>
+        <x:attribute name="recordCls" type="x:boolean" use="optional"/>
+        <x:attribute name="width" type="VisualSizeFullType" use="optional"/>
+        <x:attribute name="minWidth" type="VisualSizeFullType" use="optional"/>
+        <x:attribute name="maxWidth" type="VisualSizeFullType" use="optional"/>
+        <x:attribute name="flex" type="x:decimal" use="optional"/>
+        <x:attribute name="editor" use="optional">
+          <x:simpleType>
+            <x:union memberTypes="FormFieldTypes">
+              <x:simpleType>
+                <x:restriction base="x:string">
+                  <x:enumeration value="combobox"/>
+                  <x:enumeration value="selector"/>
+                  <x:enumeration value="pairedcombo"/>
+                </x:restriction>
+              </x:simpleType>
+            </x:union>
+          </x:simpleType>
+        </x:attribute>
+        <x:attribute name="editorId" type="x:string" use="optional"/>
+        <x:attribute name="editorValueField" type="x:string" use="optional"/>
+        <x:attribute name="filter" type="GridFilterTypes" use="optional"/>
+        <x:attribute name="draggable" type="x:boolean" use="optional"/>
+        <x:attribute name="sortable" type="x:boolean" use="optional"/>
+        <x:attribute name="datasrc" type="x:string" use="optional"/>
+      </x:restriction>
+    </x:complexContent>
+  </x:complexType>
+
+
+
+
+
+
+
+  <x:complexType name="AbstractPanel" abstract="true">
+    <x:complexContent>
+      <x:restriction base="NSElement">
+        <x:sequence>
+          <x:choice minOccurs="0" maxOccurs="unbounded">
+            <x:element ref="Tabpanel"/>
+            <x:element ref="Panel"/>
+            <x:element ref="Grid"/>
+            <x:element ref="Form"/>
+            <x:element ref="List"/>
+            <x:element ref="Tree"/>
+            <x:element ref="Chart"/>
+            <x:element ref="Editor"/>
+          </x:choice>
+          <x:sequence minOccurs="0" maxOccurs="unbounded">
+            <x:element ref="Splitter"/>
+            <x:choice minOccurs="1" maxOccurs="unbounded">
+              <x:element ref="Tabpanel"/>
+              <x:element ref="Panel"/>
+              <x:element ref="Grid"/>
+              <x:element ref="Form"/>
+              <x:element ref="List"/>
+              <x:element ref="Tree"/>
+              <x:element ref="Chart"/>
+              <x:element ref="Editor"/>
+            </x:choice>
+          </x:sequence>
+          <x:element ref="Docked" minOccurs="0" maxOccurs="1"/>
+        </x:sequence>
+      </x:restriction>
+    </x:complexContent>
+  </x:complexType>
+  <x:complexType name="Panel">
+    <x:complexContent>
+      <x:extension base="AbstractPanel">
+        <x:attributeGroup ref="GBaseComponentAttrs"/>
+        <x:attributeGroup ref="BasePanelAttrs"/>
+        <x:attribute name="id" type="x:string" use="optional"/>
+        <x:attribute name="dock" type="DockSideTypes" use="optional"/>
+        <x:attribute name="autoSplitters" type="x:boolean" use="optional"/>
+        <x:attribute name="splitterSize" type="x:positiveInteger" use="optional"/>
+        <x:attribute name="splitterHover" type="x:boolean" use="optional"/>
+        <x:attribute name="loader" type="x:string" use="optional"/>
+      </x:extension>
+    </x:complexContent>
+  </x:complexType>
+
+
+
+
+
+
+
+
+  <x:complexType name="AAnyElement" abstract="true">
+    <x:sequence>
+      <x:any namespace="##any" minOccurs="0" maxOccurs="unbounded" processContents="skip"/>
+    </x:sequence>
+    <x:anyAttribute namespace="##any" processContents="lax"/>
+  </x:complexType>
+  <x:complexType name="NSElement" abstract="true">
+    <x:complexContent>
+      <x:restriction base="AAnyElement">
+        <x:sequence>
+          <x:any namespace="##targetNamespace" minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+        </x:sequence>
+        <x:anyAttribute namespace="##any" processContents="lax"/>
+      </x:restriction>
+    </x:complexContent>
+  </x:complexType>
+
+
+
+
+  <x:attributeGroup name="GBaseComponentAttrs">
+    <x:attributeGroup ref="GVisualBoxAttrs"/>
+    <x:attribute name="disabled" type="x:boolean" use="optional"/>
+    <x:attribute name="region" type="RegionTypes" use="optional"/>
+    <x:attribute name="minHeight" type="VisualSizeFullType" use="optional"/>
+    <x:attribute name="maxHeight" type="VisualSizeFullType" use="optional"/>
+    <x:attribute name="fixHeight" type="VisualSizeFullType" use="optional"/>
+    <x:attribute name="minWidth" type="VisualSizeFullType" use="optional"/>
+    <x:attribute name="maxWidth" type="VisualSizeFullType" use="optional"/>
+    <x:attribute name="fixWidth" type="VisualSizeFullType" use="optional"/>
+    <x:attribute name="anchor" type="x:string" use="optional"/>
+    <x:attribute name="iconCls" type="x:string" use="optional"/>
+    <x:attribute name="cls" type="x:string" use="optional"/>
+    <x:attribute name="overflowX" type="OverflowTypes" use="optional"/>
+    <x:attribute name="overflowY" type="OverflowTypes" use="optional"/>
+    <x:attribute name="flex" type="x:double" use="optional"/>
+  </x:attributeGroup>
+  <x:attributeGroup name="GVisualBoxAttrs">
+    <x:attribute name="padding" type="VisualBorderType" use="optional"/>
+    <x:attribute name="margin" type="VisualBorderType" use="optional"/>
+    <x:attribute name="width" type="VisualSizeFullType" use="optional"/>
+    <x:attribute name="height" type="VisualSizeFullType" use="optional"/>
+  </x:attributeGroup>
+  <x:attributeGroup name="BaseViewAttrs">
+    <x:attribute name="title" type="x:string" use="optional"/>
+    <x:attribute name="header" type="x:boolean" use="optional"/>
+    <x:attribute name="layout" type="LayoutTypes" use="optional"/>
+    <x:attribute name="bodyCls" type="x:string" use="optional"/>
+    <x:attribute name="border" type="VisualBorderType" use="optional"/>
+    <x:attribute name="bodyBorder" type="VisualBorderType" use="optional"/>
+    <x:attribute name="bodyPadding" type="VisualBorderType" use="optional"/>
+  </x:attributeGroup>
+  <x:attributeGroup name="BasePanelAttrs">
+    <x:attributeGroup ref="BaseViewAttrs"/>
+    <x:attribute name="titleAlign" type="HAlignTypes" use="optional"/>
+    <x:attribute name="titleCollapse" type="x:boolean" use="optional"/>
+    <x:attribute name="collapsible" type="x:boolean" use="optional"/>
+    <x:attribute name="split" type="x:boolean" use="optional"/>
+    <x:attribute name="collapseTo" type="DockSideTypes" use="optional"/>
+    <x:attribute name="titleColor" type="ColorsEnum" use="optional"/>
+    <x:attribute name="titleBackColor" type="ColorsEnum" use="optional"/>
+    <x:attribute name="bodyBackColor" type="ColorsEnum" use="optional"/>
+    <x:attribute name="showColorTool" type="x:boolean" use="optional"/>
+  </x:attributeGroup>
+  <x:attributeGroup name="GFormDefaultAttrs">
+    <x:attribute name="columnWidth" type="x:double" use="optional"/>
+    <x:attribute name="labelAlign" type="LabelAlignTypes" use="optional"/>
+    <x:attribute name="labelWidth" type="x:int" use="optional"/>
+  </x:attributeGroup>
+  <x:attributeGroup name="GFormComponentAttrs">
+    <x:attribute name="allowBlank" type="x:boolean" use="optional"/>
+    <x:attribute name="name" type="x:string" use="optional"/>
+    <x:attribute name="altname" type="x:string" use="optional"/>
+    <x:attribute name="labelClsExtra" type="x:string" use="optional"/>
+    <x:attribute name="field" type="x:string" use="optional"/>
+  </x:attributeGroup>
+
+  <x:attributeGroup name="GMenuItemAttrs">
+    <x:attribute name="text" type="x:string" use="required"/>
+    <x:attribute name="icon" type="x:string" use="optional"/>
+    <x:attribute name="color" type="ColorsEnum" use="optional"/>
+    <x:attribute name="call" type="x:string" use="optional"/>
+    <x:attribute name="disabled" type="x:boolean" use="optional"/>
+    <x:attribute name="hidden" type="x:boolean" use="optional"/>
+  </x:attributeGroup>
+
+
+
+
+
+  <x:simpleType name="ListOfStrings">
+    <x:list itemType="x:string"/>
+  </x:simpleType>
+  <x:simpleType name="ButtonCallTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="action"/>
+      <x:enumeration value="cancel"/>
+      <x:enumeration value="confirm"/>
+      <x:enumeration value="create"/>
+      <x:enumeration value="menu"/>
+      <x:enumeration value="remove"/>
+      <x:enumeration value="source"/>
+      <x:enumeration value="window"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="EndPointInteractionLayer">
+    <x:restriction base="x:string">
+      <x:enumeration value="database"/>
+      <x:enumeration value="local"/>
+      <x:enumeration value="server"/>
+      <x:enumeration value="rest"/>
+      <x:enumeration value="signalr"/>
+      <x:enumeration value="xml"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="ParamScopes">
+    <x:restriction base="x:string">
+      <x:enumeration value="Combo"/>
+      <x:enumeration value="Editor"/>
+      <x:enumeration value="Form"/>
+      <x:enumeration value="Grid"/>
+      <x:enumeration value="Input"/>
+      <x:enumeration value="List"/>
+      <x:enumeration value="Loader"/>
+      <x:enumeration value="Tabpanel"/>
+      <x:enumeration value="Tree"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="LogicalOpersEnum">
+    <x:restriction base="x:string">
+      <x:enumeration value="IsEq"/>
+      <x:enumeration value="IsNe"/>
+      <x:enumeration value="IsGt"/>
+      <x:enumeration value="IsLt"/>
+      <x:enumeration value="IsGtEq"/>
+      <x:enumeration value="IsLtEq"/>
+      <x:enumeration value="StartsWith"/>
+      <x:enumeration value="EndsWith"/>
+      <x:enumeration value="IsMatch"/>
+      <x:enumeration value="IsNotValid"/>
+      <x:enumeration value="IsTrue"/>
+      <x:enumeration value="IsFalse"/>
+      <x:enumeration value="IsNull"/>
+      <x:enumeration value="IsNotNull"/>
+      <x:enumeration value="IsUndefined"/>
+      <x:enumeration value="IsNotUndefined"/>
+      <x:enumeration value="IsNaN"/>
+      <x:enumeration value="IsNotNaN"/>
+      <x:enumeration value="IsUseful"/>
+      <x:enumeration value="IsAccepted"/>
+      <x:enumeration value="IsRejected"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="PercentType">
+    <x:restriction base="x:string">
+      <x:pattern value="\d{1,3}%"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="PercentsAndInts">
+    <x:union memberTypes="PercentType x:int"/>
+  </x:simpleType>
+  <x:simpleType name="BaseVisualBorderType">
+    <x:list itemType="x:nonNegativeInteger"/>
+  </x:simpleType>
+  <x:simpleType name="VisualSizeFullType">
+    <x:union>
+      <x:simpleType>
+        <x:restriction base="x:string">
+          <x:enumeration value="auto"/>
+          <x:enumeration value="100%"/>
+        </x:restriction>
+      </x:simpleType>
+      <x:simpleType>
+        <x:union memberTypes="PercentType">
+          <x:simpleType>
+            <x:restriction base="x:double">
+              <x:minExclusive value="0"/>
+            </x:restriction>
+          </x:simpleType>
+        </x:union>
+      </x:simpleType>
+    </x:union>
+  </x:simpleType>
+  <x:simpleType name="ColorsEnum">
+    <x:union>
+      <x:simpleType>
+        <x:restriction base="x:string">
+          <x:enumeration value="black"/>
+          <x:enumeration value="blue"/>
+          <x:enumeration value="brown"/>
+          <x:enumeration value="cleargrey"/>
+          <x:enumeration value="cyan"/>
+          <x:enumeration value="darkblue"/>
+          <x:enumeration value="darkbrown"/>
+          <x:enumeration value="darkcyan"/>
+          <x:enumeration value="darkgreen"/>
+          <x:enumeration value="darkgrey"/>
+          <x:enumeration value="darkindigo"/>
+          <x:enumeration value="darkopaque"/>
+          <x:enumeration value="darkpurple"/>
+          <x:enumeration value="darkred"/>
+          <x:enumeration value="green"/>
+          <x:enumeration value="grey"/>
+          <x:enumeration value="indigo"/>
+          <x:enumeration value="lightblue"/>
+          <x:enumeration value="lightbrown"/>
+          <x:enumeration value="lightcyan"/>
+          <x:enumeration value="lightgreen"/>
+          <x:enumeration value="lightgrey"/>
+          <x:enumeration value="lightindigo"/>
+          <x:enumeration value="lightopaque"/>
+          <x:enumeration value="lightpurple"/>
+          <x:enumeration value="lightred"/>
+          <x:enumeration value="lightyellow"/>
+          <x:enumeration value="palegrey"/>
+          <x:enumeration value="purple"/>
+          <x:enumeration value="red"/>
+          <x:enumeration value="slightgrey"/>
+          <x:enumeration value="transparent"/>
+          <x:enumeration value="white"/>
+          <x:enumeration value="yellow"/>
+        </x:restriction>
+      </x:simpleType>
+      <x:simpleType>
+        <x:restriction base="x:string">
+          <x:pattern value="#[0-9A-F]{3}"/>
+        </x:restriction>
+      </x:simpleType>
+      <x:simpleType>
+        <x:restriction base="x:string">
+          <x:pattern value="#[0-9A-F]{6}"/>
+        </x:restriction>
+      </x:simpleType>
+      <x:simpleType>
+        <x:restriction base="x:string">
+          <x:pattern value="\d{1,3},\d{1,3}%,\d{1,3}%(,0\.\d{1,2})?"/>
+        </x:restriction>
+      </x:simpleType>
+    </x:union>
+  </x:simpleType>
+  <x:simpleType name="VisualBorderType">
+    <x:restriction base="BaseVisualBorderType">
+      <x:maxLength value="4"/>
+      <x:minLength value="1"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="FileTypesEnum">
+    <x:restriction base="x:string">
+      <x:enumeration value="bmp"/>
+      <x:enumeration value="css"/>
+      <x:enumeration value="gif"/>
+      <x:enumeration value="jpg"/>
+      <x:enumeration value="js"/>
+      <x:enumeration value="pdf"/>
+      <x:enumeration value="png"/>
+      <x:enumeration value="tif"/>
+      <x:enumeration value="zip"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="FileTypesList">
+    <x:list itemType="FileTypesEnum"/>
+  </x:simpleType>
+  <x:simpleType name="SystemTypesEnum">
+    <x:restriction base="x:string">
+      <x:enumeration value="auto"/>
+      <x:enumeration value="string"/>
+      <x:enumeration value="int"/>
+      <x:enumeration value="int?"/>
+      <x:enumeration value="float"/>
+      <x:enumeration value="float?"/>
+      <x:enumeration value="boolean"/>
+      <x:enumeration value="boolean?"/>
+      <x:enumeration value="date"/>
+      <x:enumeration value="date?"/>
+      <x:enumeration value="time"/>
+      <x:enumeration value="url"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="FormFieldDataTypes">
+    <x:union memberTypes="x:string x:int x:decimal x:date x:time x:dateTime x:boolean"/>
+  </x:simpleType>
+  <x:simpleType name="HAlignTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="none"/>
+      <x:enumeration value="left"/>
+      <x:enumeration value="center"/>
+      <x:enumeration value="right"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="VAlignTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="top"/>
+      <x:enumeration value="middle"/>
+      <x:enumeration value="bottom"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="SAlignTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="stretch"/>
+      <x:enumeration value="stretchmax"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="AlignTypesEnum">
+    <x:union memberTypes="HAlignTypes VAlignTypes SAlignTypes"/>
+  </x:simpleType>
+  <x:simpleType name="LabelAlignTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="top"/>
+      <x:enumeration value="left"/>
+      <x:enumeration value="right"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="OverflowTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="auto"/>
+      <x:enumeration value="scroll"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="CollapseTargetTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="none"/>
+      <x:enumeration value="prev"/>
+      <x:enumeration value="next"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="LayoutTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="auto"/>
+      <x:enumeration value="accordion"/>
+      <x:enumeration value="anchor"/>
+      <x:enumeration value="border"/>
+      <x:enumeration value="card"/>
+      <x:enumeration value="center"/>
+      <x:enumeration value="column"/>
+      <x:enumeration value="container"/>
+      <x:enumeration value="dock"/>
+      <x:enumeration value="fit"/>
+      <x:enumeration value="form"/>
+      <x:enumeration value="hbox"/>
+      <x:enumeration value="multiaccordion"/>
+      <x:enumeration value="table"/>
+      <x:enumeration value="vbox"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="DateFormatsAll">
+    <x:union memberTypes="DateOnlyFormatsEnum TimeOnlyFormatsEnum DateTimeFormatsEnum"/>
+  </x:simpleType>
+  <x:simpleType name="DateWithTimesFormatsEnum">
+    <x:union memberTypes="DateOnlyFormatsEnum DateTimeFormatsEnum"/>
+  </x:simpleType>
+  <x:simpleType name="DateOnlyFormatsEnum">
+    <x:restriction base="x:string">
+      <x:enumeration value="d.m.Y"/>
+      <x:enumeration value="d-m-Y"/>
+      <x:enumeration value="Y.m.d"/>
+      <x:enumeration value="Y-m-d"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="TimeOnlyFormatsEnum">
+    <x:restriction base="x:string">
+      <x:enumeration value="H:i"/>
+      <x:enumeration value="H:i:s"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="DateTimeFormatsEnum">
+    <x:restriction base="x:string">
+      <x:enumeration value="d.m.Y H:i:s"/>
+      <x:enumeration value="d-m-Y H:i:s"/>
+      <x:enumeration value="Y.m.d H:i:s"/>
+      <x:enumeration value="Y-m-d H:i:s"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="RegionTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="north"/>
+      <x:enumeration value="south"/>
+      <x:enumeration value="east"/>
+      <x:enumeration value="west"/>
+      <x:enumeration value="center"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="HttpMethods">
+    <x:restriction base="x:string">
+      <x:enumeration value="GET"/>
+      <x:enumeration value="POST"/>
+      <x:enumeration value="PUT"/>
+      <x:enumeration value="DELETE"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="DockSideTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="left"/>
+      <x:enumeration value="top"/>
+      <x:enumeration value="right"/>
+      <x:enumeration value="bottom"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="FormFieldTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="checkbox"/>
+      <!--<x:enumeration value="checklist"/>-->
+      <x:enumeration value="datefield"/>
+      <x:enumeration value="dateset"/>
+      <x:enumeration value="keyvalue"/>
+      <x:enumeration value="listeditor"/>
+      <x:enumeration value="monthfield"/>
+      <x:enumeration value="numberfield"/>
+      <x:enumeration value="numberset"/>
+      <x:enumeration value="password"/>
+      <x:enumeration value="timefield"/>
+      <x:enumeration value="textfield"/>
+      <x:enumeration value="textareafield"/>
+    </x:restriction>
+  </x:simpleType>
+  <!--<x:simpleType name="ComboTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="paired" />
+      <x:enumeration value="set" />
+    </x:restriction>
+  </x:simpleType>-->
+  <x:simpleType name="CheckListTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="check"/>
+      <x:enumeration value="radio"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="CheckListValueTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="int"/>
+      <x:enumeration value="ints"/>
+      <x:enumeration value="strings"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="GridFilterTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="boolean"/>
+      <x:enumeration value="date"/>
+      <x:enumeration value="datetime"/>
+      <x:enumeration value="list"/>
+      <x:enumeration value="month"/>
+      <x:enumeration value="numeric"/>
+      <x:enumeration value="string"/>
+      <x:enumeration value="none"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="GridSelectionTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="cell"/>
+      <x:enumeration value="single"/>
+      <x:enumeration value="single-check"/>
+      <x:enumeration value="multi"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="GridEditingTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="cell"/>
+      <x:enumeration value="row"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="SummaryTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="count"/>
+      <x:enumeration value="sum"/>
+      <x:enumeration value="min"/>
+      <x:enumeration value="max"/>
+      <x:enumeration value="average"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="ItemTemplateTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="display-item"/>
+      <x:enumeration value="list-item"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="TargetEntities">
+    <x:restriction base="x:string">
+      <x:enumeration value="action"/>
+      <x:enumeration value="activetab"/>
+      <!--<x:enumeration value="area"/>-->
+      <x:enumeration value="caller"/>
+      <x:enumeration value="combo"/>
+      <x:enumeration value="contextmenu"/>
+      <!--<x:enumeration value="dialogform"/>
+      <x:enumeration value="frame"/>-->
+      <x:enumeration value="input"/>
+      <x:enumeration value="list"/>
+      <x:enumeration value="menu"/>
+      <x:enumeration value="menuitem"/>
+      <x:enumeration value="source"/>
+      <x:enumeration value="tabpanel"/>
+      <x:enumeration value="tree"/>
+
+      <x:enumeration value="Checkbox"/>
+      <x:enumeration value="CheckList"/>
+      <x:enumeration value="ComboBox"/>
+      <x:enumeration value="TextField"/>
+      <x:enumeration value="TextArea"/>
+      <x:enumeration value="DateField"/>
+      <x:enumeration value="DateSet"/>
+      <x:enumeration value="TimeField"/>
+      <x:enumeration value="NumberField"/>
+      <x:enumeration value="NumberSet"/>
+      <x:enumeration value="KeyValueInput"/>
+
+      <x:enumeration value="Editor"/>
+      <x:enumeration value="Panel"/>
+      <x:enumeration value="Form"/>
+      <x:enumeration value="Grid"/>
+      <x:enumeration value="Dialog"/>
+      <x:enumeration value="Loader"/>
+
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="PropertyNames">
+    <x:union memberTypes="x:string">
+      <x:simpleType>
+        <x:restriction base="x:string">
+          <x:enumeration value="bodyCls"/>
+          <x:enumeration value="cls"/>
+          <x:enumeration value="collapsed"/>
+          <x:enumeration value="create"/>
+          <x:enumeration value="currentPage"/>
+          <x:enumeration value="day"/>
+          <x:enumeration value="delete"/>
+          <x:enumeration value="delimiter"/>
+          <x:enumeration value="descrValue"/>
+          <x:enumeration value="displayValue"/>
+          <x:enumeration value="hours"/>
+          <x:enumeration value="fromValue"/>
+          <x:enumeration value="htmlContent"/>
+          <x:enumeration value="id"/>
+          <x:enumeration value="key"/>
+          <x:enumeration value="keyPart"/>
+          <x:enumeration value="loader"/>
+          <x:enumeration value="maxValue"/>
+          <x:enumeration value="minutes"/>
+          <x:enumeration value="minValue"/>
+          <x:enumeration value="mode"/>
+          <x:enumeration value="month"/>
+          <x:enumeration value="name"/>
+          <x:enumeration value="pageSize"/>
+          <x:enumeration value="readOnly"/>
+          <x:enumeration value="result"/>
+          <x:enumeration value="seconds"/>
+          <x:enumeration value="selCount"/>
+          <x:enumeration value="selectedKey"/>
+          <x:enumeration value="src"/>
+          <x:enumeration value="step"/>
+          <x:enumeration value="title"/>
+          <x:enumeration value="totalCount"/>
+          <x:enumeration value="totalPages"/>
+          <x:enumeration value="toValue"/>
+          <x:enumeration value="update"/>
+          <x:enumeration value="url"/>
+          <x:enumeration value="validity"/>
+          <x:enumeration value="value"/>
+          <x:enumeration value="valuePart"/>
+          <x:enumeration value="year"/>
+        </x:restriction>
+      </x:simpleType>
+    </x:union>
+  </x:simpleType>
+  <x:simpleType name="FontIconSet">
+    <x:restriction base="x:string">
+      <x:enumeration value="fa"/>
+      <x:enumeration value="mat-icons"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="TbSeparatorPosition">
+    <x:restriction base="x:string">
+      <x:enumeration value="left"/>
+      <x:enumeration value="right"/>
+      <x:enumeration value="left-right"/>
+      <x:enumeration value="inside"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="EnablingContexts">
+    <x:restriction base="x:string">
+      <x:enumeration value="is-valid"/>
+      <x:enumeration value="has-selection"/>
+      <x:enumeration value="has-data"/>
+      <x:enumeration value="has-changed"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="ContextScopes">
+    <x:restriction base="x:string">
+      <x:enumeration value="Grid"/>
+      <x:enumeration value="Tree"/>
+      <x:enumeration value="Form"/>
+      <x:enumeration value="Input"/>
+      <x:enumeration value="Combo"/>
+      <x:enumeration value="List"/>
+      <x:enumeration value="Source"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="SelectedCountEnum">
+    <x:restriction base="x:string">
+      <x:enumeration value="none"/>
+      <x:enumeration value="any"/>
+      <x:enumeration value="single"/>
+      <x:enumeration value="multi"/>
+      <x:enumeration value="all"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="ChartAxisTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="Category"/>
+      <x:enumeration value="Gauge"/>
+      <x:enumeration value="Numeric"/>
+      <x:enumeration value="Time"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="ChartSeriesTypes">
+    <x:restriction base="x:string">
+      <x:enumeration value="area"/>
+      <x:enumeration value="bar"/>
+      <x:enumeration value="cartesian"/>
+      <x:enumeration value="column"/>
+      <x:enumeration value="gauge"/>
+      <x:enumeration value="line"/>
+      <x:enumeration value="pie"/>
+      <x:enumeration value="radar"/>
+      <x:enumeration value="scatter"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="SeriesLabelPosition">
+    <x:restriction base="x:string">
+      <x:enumeration value="insideStart"/>
+      <x:enumeration value="insideEnd"/>
+      <x:enumeration value="inside"/>
+      <x:enumeration value="outside"/>
+      <x:enumeration value="over"/>
+      <x:enumeration value="rotate"/>
+      <x:enumeration value="under"/>
+    </x:restriction>
+  </x:simpleType>
+
+  <x:simpleType name="EditorLangs">
+    <x:restriction base="x:string">
+      <x:enumeration value="csharp"/>
+      <x:enumeration value="css"/>
+      <x:enumeration value="javascript"/>
+      <x:enumeration value="markdown"/>
+      <x:enumeration value="json"/>
+      <x:enumeration value="sql"/>
+      <x:enumeration value="xml"/>
+    </x:restriction>
+  </x:simpleType>
+
+  <x:simpleType name="StyleGroups">
+    <x:restriction base="x:string">
+      <x:enumeration value="body"/>
+      <x:enumeration value="btn"/>
+      <x:enumeration value="fieldset"/>
+      <x:enumeration value="form-item"/>
+      <x:enumeration value="grid"/>
+      <x:enumeration value="grid-filtered-column"/>
+      <x:enumeration value="header-text"/>
+      <x:enumeration value="menu-item"/>
+      <x:enumeration value="required-field"/>
+      <x:enumeration value="toolbar-label"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="FontSizes">
+    <x:restriction base="x:string">
+      <x:enumeration value="9.5px"/>
+      <x:enumeration value="10px"/>
+      <x:enumeration value="10.5px"/>
+      <x:enumeration value="11px"/>
+      <x:enumeration value="11.5px"/>
+      <x:enumeration value="12px"/>
+      <x:enumeration value="12.5px"/>
+      <x:enumeration value="13px"/>
+      <x:enumeration value="13.5px"/>
+      <x:enumeration value="14px"/>
+      <x:enumeration value="14.5px"/>
+      <x:enumeration value="15px"/>
+      <x:enumeration value="15.5px"/>
+      <x:enumeration value="16px"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="FontWeights">
+    <x:restriction base="x:string">
+      <x:enumeration value="300"/>
+      <x:enumeration value="400"/>
+      <x:enumeration value="500"/>
+      <x:enumeration value="600"/>
+    </x:restriction>
+  </x:simpleType>
+  <x:simpleType name="FontFamilies">
+    <x:restriction base="x:string">
+      <x:enumeration value="Consolas"/>
+      <x:enumeration value="Fira Mono"/>
+      <x:enumeration value="Fira Sans Condensed"/>
+      <x:enumeration value="Roboto Condensed"/>
+      <x:enumeration value="Roboto Mono"/>
+      <x:enumeration value="Segoe UI"/>
+    </x:restriction>
+  </x:simpleType>
+
+  <x:simpleType name="LoaderRenderMode">
+    <x:restriction base="x:string">
+      <x:enumeration value="html"/>
+      <x:enumeration value="data"/>
+      <x:enumeration value="component"/>
+      <x:enumeration value="markdown"/>
+    </x:restriction>
+  </x:simpleType>
+
+
+</x:schema>
